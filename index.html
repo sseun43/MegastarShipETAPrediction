@@ -78,7 +78,7 @@
                   trackvessel='276829000';	// MMSI of a vessel (note: vessel will be displayed only if within range of the system) - overrides "zoom" option
                   fleet='';		// the registered email address of a user-defined fleet (user's default fleet is used)
                 </script>
-                <script type="text/javascript" src="http://www.marinetraffic.com/js/embed.js"></script>
+                <script type="text/javascript" src="https://www.marinetraffic.com/js/embed.js"></script>
               </div>
               <div class="col-lg-6">
                   <div class="card">
@@ -160,7 +160,7 @@
           // create a session
             const myOnnxSession = new onnx.InferenceSession();
           // load the ONNX model file
-            myOnnxSession.loadModel("./helsinkiNovelty.onnx").then(() => {
+            myOnnxSession.loadModel("./helsinkiJourney.onnx").then(() => {
           // generate model input
               console.log("ModelLoaded")
             //const inferenceInputs = getInputs();
