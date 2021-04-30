@@ -158,10 +158,11 @@
         <!-- Code that consume ONNX.js -->
         <script>
           // create a session
-            //const myOnnxSession = new onnx.InferenceSession();
+            const myOnnxSession = new onnx.InferenceSession();
           // load the ONNX model file
-            //myOnnxSession.loadModel("./my-model.onnx").then(() => {
+            myOnnxSession.loadModel("./helsinkiNovelty.onnx").then(() => {
           // generate model input
+              console.log("ModelLoaded")
             //const inferenceInputs = getInputs();
           // execute the model
             //myOnnxSession.run(inferenceInputs).then((output) => {
@@ -169,6 +170,6 @@
               //const outputTensor = output.values().next().value;
               //console.log(`model output tensor: ${outputTensor.data}.`);
             //});
-          //});
+          });
         </script>
 </body>
