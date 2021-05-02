@@ -153,23 +153,11 @@
   <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.4/dist/Chart.min.js"></script>
   <script src="https://demos.creative-tim.com/argon-dashboard/assets/vendor/chart.js/dist/Chart.extension.js"></script>
   <script src="https://demos.creative-tim.com/argon-dashboard/assets/js/argon.min.js?v=1.2.0"></script>
-        <!-- Load ONNX.js -->
-        <script src="https://cdn.jsdelivr.net/npm/onnxjs/dist/onnx.min.js"></script>
+        <!-- Load tensorflow.js -->
+        <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@2.0.0/dist/tf.min.js"></script>
         <!-- Code that consume ONNX.js -->
         <script>
-          // create a session
-            const myOnnxSession = new onnx.InferenceSession();
-          // load the ONNX model file
-            myOnnxSession.loadModel("./helsinkiJourneyLin.onnx").then(() => {
-          // generate model input
-              console.log("ModelLoaded")
-            //const inferenceInputs = getInputs();
-          // execute the model
-            //myOnnxSession.run(inferenceInputs).then((output) => {
-          // consume the output
-              //const outputTensor = output.values().next().value;
-              //console.log(`model output tensor: ${outputTensor.data}.`);
-            //});
-          });
+          const model = await tf.loadLayersModel('./helsinkTripETA.json');
+          console.log(model.summary)
         </script>
 </body>
