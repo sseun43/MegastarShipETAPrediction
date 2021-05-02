@@ -157,7 +157,10 @@
         <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@2.0.0/dist/tf.min.js"></script>
         <!-- Code that consume ONNX.js -->
         <script>
-          const model = await tf.loadLayersModel('./helsinkTripETA.json');
-          console.log(model.summary)
+          async function f() {
+            const model = await tf.loadLayersModel('./helsinkTripETA.json');
+            console.log(model.summary)
+          }
+          f()
         </script>
 </body>
