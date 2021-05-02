@@ -158,8 +158,8 @@
         <!-- Code that consume ONNX.js -->
         <script>
           async function f() {
-            const model = await tf.loadLayersModel('https://sseun43.github.io/MegastarShipETAPrediction/helsinkTripETA.json');
-            console.log(model.summary)
+            const model = await tf.loadLayersModel('https://sseun43.github.io/MegastarShipETAPrediction/helsinkiTripETA/model.json');
+            console.log(model.predict(tf.tensor2d([60.1475,24.9149,2.8,197,205], [1,5])))
           }
           f()
         </script>
