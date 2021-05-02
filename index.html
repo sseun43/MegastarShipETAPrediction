@@ -158,7 +158,7 @@
         <!-- Code that consume ONNX.js -->
         <script>
           async function f() {
-            const model = await tf.loadLayersModel('./helsinkTripETA.json');
+            const model = await tf.loadLayersModel('https://sseun43.github.io/MegastarShipETAPrediction/helsinkTripETA.json');
             console.log(model.summary)
           }
           f()
