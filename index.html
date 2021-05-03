@@ -6,9 +6,178 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css" type="text/css">
   <link rel="stylesheet" href="https://demos.creative-tim.com/argon-dashboard/assets/vendor/nucleo/css/nucleo.css" type="text/css"><!-- CSS -->
   <link rel="stylesheet" href="https://demos.creative-tim.com/argon-dashboard/assets/css/argon.min.css?v=1.2.0" type="text/css">
+  <style>
+      /* The Modal (background) */
+        .modal {
+        display: none; /* Hidden by default */
+        position: fixed; /* Stay in place */
+        z-index: 1; /* Sit on top */
+        left: 0;
+        top: 0;
+        width: 100%; /* Full width */
+        height: 100%; /* Full height */
+        overflow: auto; /* Enable scroll if needed */
+        background-color: rgb(0,0,0); /* Fallback color */
+        background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+        }
+
+        /* Modal Content/Box */
+        .modal-content {
+        background-color: #fefefe;
+        margin: 15% auto; /* 15% from the top and centered */
+        padding: 20px;
+        border: 1px solid #888;
+        width: 80%; /* Could be more or less, depending on screen size */
+        }
+
+        /* The Close Button */
+        .close {
+        color: #aaa;
+        float: right;
+        font-size: 28px;
+        font-weight: bold;
+        }
+
+        .close:hover,
+        .close:focus {
+        color: black;
+        text-decoration: none;
+        cursor: pointer;
+        }
+
+        .switch {
+  position: relative;
+  display: inline-block;
+  width: 60px;
+  height: 34px;
+}
+
+.switch input { 
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 26px;
+  width: 26px;
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+input:checked + .slider {
+  background-color: #2196F3;
+}
+
+input:focus + .slider {
+  box-shadow: 0 0 1px #2196F3;
+}
+
+input:checked + .slider:before {
+  -webkit-transform: translateX(26px);
+  -ms-transform: translateX(26px);
+  transform: translateX(26px);
+}
+
+/* Rounded sliders */
+.slider.round {
+  border-radius: 34px;
+}
+
+.slider.round:before {
+  border-radius: 50%;
+}
+
+/* Style inputs with type="text", select elements and textareas */
+input[type=text], select, textarea {
+  width: 100%; /* Full width */
+  padding: 12px; /* Some padding */ 
+  border: 1px solid #ccc; /* Gray border */
+  border-radius: 4px; /* Rounded borders */
+  box-sizing: border-box; /* Make sure that padding and width stays in place */
+  margin-top: 6px; /* Add a top margin */
+  margin-bottom: 16px; /* Bottom margin */
+  resize: vertical /* Allow the user to vertically resize the textarea (not horizontally) */
+}
+
+/* Style the submit button with a specific background color etc */
+input[type=submit] {
+  background-color: #04AA6D;
+  color: white;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+/* When moving the mouse over the submit button, add a darker green color */
+input[type=submit]:hover {
+  background-color: #45a049;
+}
+
+/* Add a background color and some padding around the form */
+.container {
+  border-radius: 5px;
+  background-color: #f2f2f2;
+  padding: 20px;
+}
+  </style>
 </head>
 
 <body>
+    <!-- The Modal -->
+<div id="myModal" class="modal">
+
+    <!-- Modal content -->
+    <div class="modal-content">
+        <span class="close">&times;</span>
+        <!-- <div class="container">
+            <form action="action_page.php">
+          
+              <label for="fname">Longitude</label>
+              <input type="text" id="Longitude" name="firstname" >
+          
+              <label for="lname">Latitude</label>
+              <input type="text" id="Latitude" name="lastname">
+
+              <label for="fname">Speed</label>
+              <input type="text" id="Speed" name="firstname">
+          
+              <label for="lname">Course</label>
+              <input type="text" id="Course" name="lastname">
+
+              <label for="fname">Heading</label>
+              <input type="text" id="Heading" name="firstname" >
+          
+            </form>
+        </div> -->
+      <!-- Rounded switch -->
+      <p> Trip To Estonia</p>
+    <label class="switch">
+        <input type="checkbox" id="myCheck" onClick="myCheckBoxFunction()">
+        <span class="slider round"></span>
+    </label>
+    </div>
+  
+  </div>
+
   <div class="main-content" id="panel">
       <nav class="navbar navbar-top navbar-expand navbar-dark border-bottom bg-dark" id="navbarTop" data-toggle="modal" data-target="#navbarModal">
           <div class="container-fluid">
@@ -86,12 +255,6 @@
                                   </tr>
                               </thead>
                               <tbody>
-                                  <tr>
-                                      <th scope="row">99,03</th>
-                                      <td>4,569</td>
-                                      <td>$452,460</td>
-                                      <td><i class="fas fa-arrow-up text-success mr-3"></i> 46,53%</td>
-                                  </tr>
                                 
                               </tbody>
                           </table>
@@ -100,7 +263,7 @@
                   <div class="card">
                       <div class="card-body">
                           <h5 class="card-title">Ship Journey Note</h5>
-                          <p class="card-text" spellcheck="false">The ship's motion is normal.</p><a href="#" class="btn btn-primary btn-sm">Read more</a>
+                          <p class="card-text" spellcheck="false">The ship's motion is normal.</p><a href="#" class="btn btn-primary btn-sm" id="myBtn">Manual Input</a>
                       </div>
                   </div>
               </div>
@@ -142,6 +305,32 @@
         <!-- Load tensorflow.js -->
         <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@2.0.0/dist/tf.min.js"></script>
         <script>
+          // Get the modal
+            var modal = document.getElementById("myModal");
+
+            // Get the button that opens the modal
+            var btn = document.getElementById("myBtn");
+
+            // Get the <span> element that closes the modal
+            var span = document.getElementsByClassName("close")[0];
+
+            // When the user clicks on the button, open the modal
+            btn.onclick = function() {
+            modal.style.display = "block";
+            }
+
+            // When the user clicks on <span> (x), close the modal
+            span.onclick = function() {
+            modal.style.display = "none";
+            }
+
+            // When the user clicks anywhere outside of the modal, close it
+            window.onclick = function(event) {
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+            }  
+
           var isDepartingFromHelsinki = true;
           var Threshold = 2.5;
           async function f() {
@@ -216,6 +405,27 @@
                     myFunction()
               });
           }
-          f() // setTimeIntervalToCallThisFunction
+          f() // setTimeIntervalToCallThisFunction          
+
+          function myCheckBoxFunction(){
+            var checkbox = document.getElementById("myCheck");
+
+            // var lat = document.getElementById("Longitude");
+            // var long = document.getElementById("Latitude");
+            // var sog = document.getElementById("Speed");
+            // var cog = document.getElementById("Course");
+            // var heading = document.getElementById("Heading");
+
+            if(checkbox.checked == true){
+                isDepartingFromHelsinki = true
+                console.log("isDepartingFromHelsink is true")
+            }else{
+                isDepartingFromHelsinki = false
+                console.log("isDepartingFromHelsink is false")
+            }
+            
+        }
+
+        setInterval(f, 1000 * 60 * 2);
         </script>
 </body>
