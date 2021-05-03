@@ -207,7 +207,7 @@ input[type=submit]:hover {
                       <div class="card-body">
                           <div class="row">
                               <div class="col">
-                                  <h5 class="card-title text-uppercase text-muted mb-0">Predicted Time Of Arrival</h5><span class="h2 font-weight-bold mb-0" id="ETA">2,356</span>
+                                  <h5 class="card-title text-uppercase text-muted mb-0" id="predictedCityInd">Predicted Time Of Arrival To Tallinn</h5><span class="h2 font-weight-bold mb-0" id="ETA">2,356</span>
                               </div>
                               <div class="col-auto">
                                   <div class="icon icon-shape bg-orange text-white rounded-circle shadow"><i class="fa fa-chart-pie"></i></div>
@@ -306,6 +306,7 @@ input[type=submit]:hover {
         <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@2.0.0/dist/tf.min.js"></script>
         <script>
           // Get the modal
+            alert("Note : The default loaded model for prediction assumes the ship trip is from Tallinn, press 'settings' button to select the right model if current ship trip is from Helsinki");
             var modal = document.getElementById("myModal");
 
             // Get the button that opens the modal
@@ -331,7 +332,7 @@ input[type=submit]:hover {
             }
             }  
 
-          var isDepartingFromHelsinki = true;
+          var isDepartingFromHelsinki = false;
           var Threshold = 2.5;
           async function f() {
             fetch('https://meri.digitraffic.fi/api/v1/locations/latest/276829000')
@@ -411,6 +412,7 @@ input[type=submit]:hover {
             var checkbox = document.getElementById("myCheck");
             var currentModelInUse = document.getElementById("currentModelIndicator");
             var modelInd = document.getElementById("modelInd");
+            var predictedCityInd = document.getElementById("predictedCityInd");
             // var lat = document.getElementById("Longitude");
             // var long = document.getElementById("Latitude");
             // var sog = document.getElementById("Speed");
@@ -422,11 +424,13 @@ input[type=submit]:hover {
                 
                 currentModelInUse.innerHTML = "Loaded model for Trip from Helsinki(Finland), click settings to change Model If the trip to be predicted is from Tallinn"
                 modelInd.innerHTML = "Loaded model for Trip to Tallinn"
+                predictedCityInd.innerHTML = "Predicted Time Of Arrival To Tallinn"
                 console.log("isDepartingFromHelsink is true")
             }else{
                 isDepartingFromHelsinki = false
                 currentModelInUse.innerHTML = "Loaded model for Trip from Tallinn(Estonia), click settings to change Model If the trip to be predicted is from Helsinki"
                 modelInd.innerHTML = "Loaded model for Trip to Helsinki"
+                predictedCityInd.innerHTML = "Predicted Time Of Arrival To Helsinki"
                 console.log("isDepartingFromHelsink is false")
             }
             f()
