@@ -169,7 +169,7 @@ input[type=submit]:hover {
             </form>
         </div> -->
       <!-- Rounded switch -->
-      <p> Trip To Estonia</p>
+      <p id= "modelInd"> Toggle switch to toggle between Models</p>
     <label class="switch">
         <input type="checkbox" id="myCheck" onClick="myCheckBoxFunction()">
         <span class="slider round"></span>
@@ -262,8 +262,8 @@ input[type=submit]:hover {
                   </div>
                   <div class="card">
                       <div class="card-body">
-                          <h5 class="card-title">Ship Journey Note</h5>
-                          <p class="card-text" spellcheck="false">The ship's motion is normal.</p><a href="#" class="btn btn-primary btn-sm" id="myBtn">Settings</a>
+                          <h5 class="card-title">Model in Use</h5>
+                          <p class="card-text" spellcheck="false" id="currentModelIndicator">Using model for Trip from Helsinki, click settings to change Model If the trip to be predicted is from Tallinn</p><a href="#" class="btn btn-primary btn-sm" id="myBtn">Settings</a>
                       </div>
                   </div>
               </div>
@@ -409,7 +409,8 @@ input[type=submit]:hover {
 
           function myCheckBoxFunction(){
             var checkbox = document.getElementById("myCheck");
-
+            var currentModelInUse = document.getElementById("currentModelIndicator");
+            var modelInd = document.getElementById("modelInd");
             // var lat = document.getElementById("Longitude");
             // var long = document.getElementById("Latitude");
             // var sog = document.getElementById("Speed");
@@ -417,10 +418,15 @@ input[type=submit]:hover {
             // var heading = document.getElementById("Heading");
 
             if(checkbox.checked == true){
-                isDepartingFromHelsinki = true
+                isDepartingFromHelsinki = true;
+                
+                currentModelInUse.innerHTML = "Loaded model for Trip from Helsinki(Finland), click settings to change Model If the trip to be predicted is from Tallinn"
+                modelInd.innerHTML = "Loaded model for Trip to Tallinn"
                 console.log("isDepartingFromHelsink is true")
             }else{
                 isDepartingFromHelsinki = false
+                currentModelInUse.innerHTML = "Loaded model for Trip from Tallinn(Estonia), click settings to change Model If the trip to be predicted is from Helsinki"
+                modelInd.innerHTML = "Loaded model for Trip to Helsinki"
                 console.log("isDepartingFromHelsink is false")
             }
             f()
