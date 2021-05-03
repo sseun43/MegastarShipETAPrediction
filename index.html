@@ -33,33 +33,19 @@
       </nav>
       <div class="container-fluid pt-3">
           <div class="row removable">
-              <div class="col-lg-6">
+              <div class="col-lg-12">
                   <div class="card card-stats">
                       <div class="card-body">
                           <div class="row">
                               <div class="col">
-                                  <h5 class="card-title text-uppercase text-muted mb-0">Predicted Time Of Arrival</h5><span class="h2 font-weight-bold mb-0">2,356</span>
+                                  <h5 class="card-title text-uppercase text-muted mb-0">Predicted Time Of Arrival</h5><span class="h2 font-weight-bold mb-0" id="ETA">2,356</span>
                               </div>
                               <div class="col-auto">
                                   <div class="icon icon-shape bg-orange text-white rounded-circle shadow"><i class="fa fa-chart-pie"></i></div>
                               </div>
                           </div>
-                          <p class="mt-3 mb-0 text-sm"><span class="text-success mr-2"><i class="fa fa-arrow-up"></i> 3.48%</span><span class="text-nowrap">Since last month</span></p>
-                      </div>
-                  </div>
-              </div>
-              <div class="col-lg-6">
-                  <div class="card card-stats">
-                      <div class="card-body">
-                          <div class="row">
-                              <div class="col">
-                                  <h5 class="card-title text-uppercase text-muted mb-0">Ship Monitoring</h5><span class="h2 font-weight-bold mb-0">2,356</span>
-                              </div>
-                              <div class="col-auto">
-                                  <div class="icon icon-shape bg-orange text-white rounded-circle shadow"><i class="fa fa-chart-pie"></i></div>
-                              </div>
-                          </div>
-                          <p class="mt-3 mb-0 text-sm"><span class="text-success mr-2"><i class="fa fa-arrow-up"></i> 3.48%</span><span class="text-nowrap">Since last month</span></p>
+                          <p class="mt-3 mb-0 text-sm" id="normalStatus"><span class="text-success mr-2"><i class="fa fa-check"></i> <span>Status : Normal Since 5 minute ago</span></p>
+                          <p class="mt-3 mb-0 text-sm" id="warningStatus"><span class="text-warning mr-2"><i class="fa fa-flag-checkered"></i> <span>Status : Abnormal route Since 5 minute ago</span></p>
                       </div>
                   </div>
               </div>
@@ -90,7 +76,7 @@
                           </div>
                       </div>
                       <div class="table-responsive">
-                          <table class="table align-items-center table-flush">
+                          <table class="table align-items-center table-flush" id="myTable">
                               <thead class="thead-light">
                                   <tr>
                                       <th scope="col">Latitude</th>
@@ -164,6 +150,8 @@
               .then(async function(data){
                     console.log(data)
                     var baseData = data.features[0]
+
+
                     var tensorInput = tf.tensor2d([baseData.geometry.coordinates[1], baseData.geometry.coordinates[0], baseData.properties.sog,baseData.properties.cog,baseData.properties.heading], [1,5]);
 
                     const model = await tf.loadLayersModel('https://sseun43.github.io/MegastarShipETAPrediction/helsinkiTripETA/model.json');
@@ -171,18 +159,63 @@
                   
                     const fin_health_model = await tf.loadLayersModel('https://sseun43.github.io/MegastarShipETAPrediction/helsinkiTripETA/helsinkiTripHealth/model.json');
                     console.log(fin_health_model.predict(tf.tensor2d([60.1475,24.9149,2.8,197,205], [1,5]))/*.arraySync()[0][0]*/)
-                    var helsinkiHealthModel = tf.metrics.meanAbsoluteError(fin_health_model.predict(tensorInput).arraySync()[0],tensorInput)
+                    var helsinkiHealthModel = tf.metrics.meanAbsoluteError(fin_health_model.predict(tensorInput).arraySync()[0],tensorInput).arraySync()[0]
 
                     const est_eta_model = await tf.loadLayersModel('https://sseun43.github.io/MegastarShipETAPrediction/helsinkiTripETA/tallinnTripETA/model.json');
                     var tallinnTripModel = est_eta_model.predict(tensorInput).arraySync()[0][0]
 
                     const est_health_model = await tf.loadLayersModel('https://sseun43.github.io/MegastarShipETAPrediction/helsinkiTripETA/tallinnTripHealth/model.json');
                     console.log(est_health_model.predict(tf.tensor2d([60.1475,24.9149,2.8,197,205], [1,5]))/*.arraySync()[0][0]*/)
-                    var tallinnHealthModel = tf.metrics.meanAbsoluteError(est_health_model.predict(tensorInput).arraySync()[0],tensorInput)
+                    var tallinnHealthModel = tf.metrics.meanAbsoluteError(est_health_model.predict(tensorInput).arraySync()[0],tensorInput).arraySync()[0]
 
-                    console.log(helsinkiTripModel, helsinkiHealthModel, tallinnTripModel, tallinnHealthModel)
+                    console.log(helsinkiTripModel,helsinkiHealthModel, tallinnTripModel, tallinnHealthModel)
+
+                    function myFunction() {
+                        var table = document.getElementById("myTable");
+                        var row = table.insertRow(1);
+                        var cell1 = row.insertCell(0);
+                        var cell2 = row.insertCell(1);
+                        var cell3 = row.insertCell(2);
+                        var cell4 = row.insertCell(3);
+                        cell1.innerHTML = baseData.geometry.coordinates[1];
+                        cell2.innerHTML = baseData.geometry.coordinates[0];
+                        cell3.innerHTML = baseData.properties.sog;
+                        cell4.innerHTML = baseData.properties.cog;
+
+                        function addMinutes(minutes){
+                            return new Date(new Date().getTime() + minutes*60000).toTimeString();
+                        }
+
+                        function displayWarning(){
+                            var warningStatus = document.getElementById("warningStatus");
+                            var normalStatus = document.getElementById("normalStatus");
+                            
+                            if(isDepartingFromHelsinki){
+                                if(helsinkiHealthModel <= Threshold){
+                                    warningStatus.style.display = "none"
+                                    normalStatus.style.display = "block"
+                                }else{
+                                    normalStatus.style.display = "none"
+                                    warningStatus.style.display = "block"
+                                }
+                            }else{
+                                if(tallinnHealthModel <= Threshold){
+                                    warningStatus.style.display = "none"
+                                    normalStatus.style.display = "block"
+                                }else{
+                                    normalStatus.style.display = "none"
+                                    warningStatus.style.display = "block"
+                                }
+                            }
+                        }
+                        displayWarning()
+
+                        var eta = document.getElementById("ETA");
+                        eta.innerHTML = (isDepartingFromHelsinki) ? addMinutes(helsinkiTripModel) : addMinutes(tallinnTripModel)
+                    }
+                    myFunction()
               });
           }
-          f()
+          f() // setTimeIntervalToCallThisFunction
         </script>
 </body>
