@@ -173,7 +173,11 @@
             console.log(tf.metrics.meanAbsoluteError(model.predict(tf.tensor2d([60.1475,24.9149,2.8,197,205], [1,5])).arraySync()[0],tf.tensor2d([60.1475,24.9149,2.8,197,205], [1,5])))
 
             const est_eta_model = await tf.loadLayersModel('https://sseun43.github.io/MegastarShipETAPrediction/helsinkiTripETA/tallinnTripETA/model.json');
-            console.log(est_eta_model.predict(tf.tensor2d([60.1475,24.9149,2.8,197,205], [1,5])).arraySync()[0][0])
+            console.log(est_eta_model.predict(tf.tensor2d([59.446201,	24.772400,	5.6,	31,	214], [1,5])).arraySync()[0][0])
+
+            const model = await tf.loadLayersModel('https://sseun43.github.io/MegastarShipETAPrediction/helsinkiTripETA/tallinnTripHealth/model.json');
+            console.log(model.predict(tf.tensor2d([60.1475,24.9149,2.8,197,205], [1,5]))/*.arraySync()[0][0]*/)
+            console.log(tf.metrics.meanAbsoluteError(model.predict(tf.tensor2d([60.1475,24.9149,2.8,197,205], [1,5])).arraySync()[0],tf.tensor2d([60.1475,24.9149,2.8,197,205], [1,5])))
           }
           f()
         </script>
