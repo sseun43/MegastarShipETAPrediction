@@ -173,7 +173,7 @@
             console.log(tf.metrics.meanAbsoluteError(model.predict(tf.tensor2d([60.1475,24.9149,2.8,197,205], [1,5])).arraySync()[0],tf.tensor2d([60.1475,24.9149,2.8,197,205], [1,5])))
 
             const est_eta_model = await tf.loadLayersModel('https://sseun43.github.io/MegastarShipETAPrediction/helsinkiTripETA/tallinnTripETA/model.json');
-            console.log(est_eta_model.predict(tf.tensor2d([baseData.geometry.coordinates[1], baseData.geometry.coordinates[0], baseData.properties.sog,baseData.properties.cog,baseData.properties.heading], [1,5])).arraySync()[0][0])
+            console.log(est_eta_model.predict(tf.tensor2d([60.1475,24.9149,2.8,197,205], [1,5])).arraySync()[0][0])
           }
           f()
         </script>
